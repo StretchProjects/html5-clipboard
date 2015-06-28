@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Copying to clipboard with HTML5</title>
+        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            * {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .container {
+                text-align: center;
+                width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            #copyFromArea, #pasteArea {
+                width: 600px;
+                height: 150px;
+                display: block;
+                margin-top: 16px;
+                margin-bottom: 16px;
+                resize: none;
+            }
+        </style>
+
+        <script>
+            /**
+             * The copy event listener
+             * Currently overwrites whatever is being copied with your content
+             * This won't stop people copying from your site - people can always disable javascript!
+             */
+            document.addEventListener('copy', function(e){
+                e.clipboardData.setData('text/plain', 'Copied from yoursite.com!');
+                e.preventDefault();
+            });
+
+            /**
+             * The paste event listener 
+             * Splitting the text is just to show that you can 
+             * manipulate the text as you are pasting it
+             */
+            document.addEventListener('paste', function(e){
+                var values = e.clipboardData.getData('text/plain').split(" ");
+                document.getElementById('pasteArea').value = values[1];
+                e.preventDefault();
+            });
+
+            /**
+             * Resets the content of the pasteArea textarea to make things easier to demonstrate
+             * This is not central to the video
+             */
+            function reset() {
+                document.getElementById('pasteArea').value = '';
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Stretch Projects | HTML5 Clipboard API</h1>
+
+            <textarea id="copyFromArea">Some text here</textarea>
+
+            <button onclick="document.execCommand('copy');">Copy to clipboard!</button>
+
+            <textarea id="pasteArea"></textarea>
+
+            <button onclick="reset();">Reset</button>
+        </div>
+    </body>
+</html>
